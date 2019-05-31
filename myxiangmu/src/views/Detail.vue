@@ -3,7 +3,7 @@
     <div class="container">
       <header class="header">
         {{ title }}
-        {{ otitle }}
+        <p>[{{ otitle }}]</p>
       </header>
       <div class="content">
         <img class="movie" :src="img">
@@ -56,10 +56,16 @@ export default {
   .container {
     @include rect(100%, 100%);
     .header {
-      @include font-size(0.14rem);
+      @include font-size(0.16rem);
       @include text-align();
-      @include line-height(.44rem);
+      @include line-height(.34rem);
       @include font-weight(700);
+      p {
+      @include line-height(.06rem);
+      @include font-size(0.12rem);
+      @include font-weight(100);
+      letter-spacing: .01rem;
+      }
     }
     .content {
       @include rect(100%, 100%);
@@ -72,7 +78,7 @@ export default {
         display:block;
       }
       ul {
-        @include rect(100%, 1.2rem);
+        @include rect(100%, 1.3rem);
         @include flexbox();
         @include flex-wrap(no-wrap);
         @include margin(8px 0);
@@ -86,6 +92,11 @@ export default {
           img {
             @include rect(auto, 1rem);
             @include margin(5px 0);
+            @include border-radius(50%);
+          }
+          span {
+            display: block;
+            @include rect(100%, .24rem);
           }
         }
       }

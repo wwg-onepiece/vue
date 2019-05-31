@@ -19,6 +19,13 @@ export default new Router({
       redirect: '/home'
     },
     {
+      path: '/register',
+      name: 'register',
+      components: {
+        default: () => import('./views/Register')
+      }
+    },
+    {
       path: '/detail/:id',
       name: 'detail',
       components: {
@@ -57,7 +64,7 @@ export default new Router({
       children: [
         {
           path: '/',
-          redirect: 'login'
+          redirect: 'nologin'
         },
         {
           path: 'nologin',

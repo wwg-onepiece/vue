@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    <van-nav-bar class="header" left-arrow @click-left="onClickLeft">
-    </van-nav-bar>
+    <van-nav-bar class="header" left-arrow @click-left="onClickLeft"></van-nav-bar>
     <van-goods-action>
       <van-goods-action-mini-btn
         icon="chat-o"
@@ -28,9 +27,13 @@
 // import Vue from 'vue'
 // import { Toast } from 'vant'
 // Vue.use(Toast)
+// import { Sku } from 'vant'
+// Vue.use(Sku);
 
 export default {
   methods: {
+    onAddCartClicked () {
+    },
     onClickLeft () {
       this.$router.go(-1)
     }

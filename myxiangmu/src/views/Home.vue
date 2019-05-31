@@ -1,6 +1,17 @@
 <template>
   <div class="container">
     <header class="header">
+      <van-search
+        v-model="value"
+        placeholder="请输入搜索关键词"
+        show-action
+        background="#f66"
+        shape="round"
+        @search="onSearch"
+        cursor="pointer"
+      >
+        <div slot="action" @click="onSearch">搜索</div>
+      </van-search>
     </header>
     <div class="content">
       <div class="banner">
@@ -10,7 +21,7 @@
           </mt-swipe-item>
         </mt-swipe>
       </div>
-      <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
+      <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :auto-fill="false">
         <prolist :prolist="prolist"/>
       </mt-loadmore>
       <BackTop :scrollmyself='true'/>
@@ -29,7 +40,8 @@ export default { // 暴露模块
       bannerlist: [],
       prolist: [],
       allLoaded: false,
-      pageCode: 1
+      pageCode: 1,
+      value: ''
     }
   },
   components: {
@@ -38,6 +50,8 @@ export default { // 暴露模块
     BackTop
   },
   methods: {
+    onSearch () {
+    },
     loadTop () {
       axios.get('http://www.daxunxun.com/douban').then(res => {
         console.log(res.data)
