@@ -1,10 +1,13 @@
 <template>
   <div class="box">
     <div class="container">
-      <header class="header">
+      <mt-header :title="title" class="header">
+        <mt-button icon="back" slot="left" @click="goBack" tag="div"></mt-button>
+      </mt-header>
+      <!-- <header class="header">
         {{ title }}
         <p>[{{ otitle }}]</p>
-      </header>
+      </header> -->
       <div class="content">
         <img class="movie" :src="img">
         <van-tag class="label" type="primary" v-for="(item,index) in genres" :key="index">{{ item }}</van-tag>
@@ -34,11 +37,16 @@ export default {
       otitle: ''
     }
   },
+  methods: {
+    goBack () {
+      this.$router.go(-1)
+    }
+  },
   mounted () {
     // console.log(this.$route)
     const { id } = this.$route.params
     axios.get(`http://www.daxunxun.com/detail?id=${id}`).then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       this.title = res.data[0].title
       this.genres = res.data[0].genres
       this.img = res.data[0].images.small

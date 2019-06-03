@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <van-nav-bar class="header" left-arrow @click-left="onClickLeft"></van-nav-bar>
+    <mt-header class="header">
+      <mt-button icon="back" slot="left" @click="goBack" tag="div"></mt-button>
+    </mt-header>
     <van-goods-action>
       <van-goods-action-mini-btn
         icon="chat-o"
@@ -24,17 +26,38 @@
   </div>
 </template>
 <script>
-// import Vue from 'vue'
-// import { Toast } from 'vant'
-// Vue.use(Toast)
+import Vue from 'vue'
+import { Toast, Dialog } from 'vant'
+Vue.use(Toast)
 // import { Sku } from 'vant'
-// Vue.use(Sku);
-
+// Vue.use(Sku)
+Vue.use(Dialog)
 export default {
+  beforeRouteEnter (to, from, next) {
+    console.log(to)
+    // if (localStorage.getItem('isLogin') === 'ok') {
+    //   next()
+    // } else {
+    //   next('/rlogin')
+    // }
+    next(vm => {
+      console.log(vm)
+      if (vm.$store.state.loginState === 'ok') {
+        next()
+      } else {
+        // next('/user')
+        Dialog.alert({
+          message: '请先登录'
+        }).then(() => {
+          vm.$router.push('/user')
+        })
+      }
+    })
+  },
   methods: {
     onAddCartClicked () {
     },
-    onClickLeft () {
+    goBack () {
       this.$router.go(-1)
     }
     // onClickMiniBtn () {

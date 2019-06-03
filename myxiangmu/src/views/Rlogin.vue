@@ -1,9 +1,7 @@
 <template>
-  <div class="register">
-    <mt-header>
-      <div slot="left">
-        <mt-button @click="goBack" icon="back"></mt-button>
-      </div>
+  <div class="Rlogin">
+    <mt-header class="header">
+      <mt-button icon="back" slot="left" @click="goBack" tag="div"></mt-button>
     </mt-header>
     <van-cell-group>
       <van-field
@@ -16,18 +14,6 @@
       >
         <van-icon slot="button" color="green" size="24px" :name="usernameicon" />
       </van-field>
-      <van-cell-group>
-        <van-field
-          v-model="sms"
-          required
-          center
-          clearable
-          label="短信验证码"
-          placeholder="请输入短信验证码"
-        >
-          <van-button @click="sendCode" slot="button" size="small" type="primary">发送验证码</van-button>
-        </van-field>
-      </van-cell-group>
       <van-field
         v-model="password"
         type="password"
@@ -40,7 +26,7 @@
         <van-icon slot="button" color="green" size="24px" :name="passwordicon" />
       </van-field>
     </van-cell-group>
-    <van-button type="info" @click="register" size="large">注册</van-button>
+    <van-button type="primary" @click="rlogin" size="large">登录</van-button>
   </div>
 </template>
 
@@ -53,9 +39,7 @@ export default {
   data () {
     return {
       username: '',
-      password: '',
-      sms: '',
-      code: '1'
+      password: ''
     }
   },
   computed: {
@@ -95,34 +79,9 @@ export default {
   methods: {
     goBack () {
       this.$router.go(-1)
+      console.log(1)
     },
-    sendCode () {
-      if (!(/^1[3456789]\d{9}$/.test(this.username))) {
-        Toast('手机号码输入有误')
-      } else {
-        this.getCode()
-      }
-    },
-    getCode () {
-      axios.get(`http://www.daxunxun.com/users/sendCode?tel=${this.username}`)
-        .then(res => {
-          console.log(res.data)
-          if (res.data === 1) {
-            Toast('该手机号已经被注册')
-          } else if (res.data === 0) {
-            Toast('手机号验证码获取失败')
-          } else {
-            console.log(res.data)
-            this.code = res.data.code
-          }
-        })
-    },
-    register () {
-      if (this.sms !== this.code) {
-        this.sms = ''
-        Toast('验证码输入错误')
-        return
-      }
+    rlogin () {
       if (this.usernameicon !== 'checked') {
         Toast('请输入正确的手机号')
         return
@@ -131,21 +90,24 @@ export default {
         Toast('请输入正确的密码')
         return
       }
-      this.registerFn()
+      this.rloginFn()
     },
-    registerFn () {
-      axios.post('http://www.daxunxun.com/users/register', {
+    rloginFn () {
+      axios.post('http://www.daxunxun.com/users/login', {
         username: this.username,
         password: this.password
       }).then(res => {
         if (res.data === 0) {
-          Toast('注册失败')
+          Toast('登录失败')
         } else if (res.data === 2) {
-          Toast('用户名已注册')
+          Toast('没有该用户')
+        } else if (res.data === -1) {
+          Toast('密码错误')
         } else {
-          Toast('注册成功')
+          Toast('登录成功')
           // 注册即登录成功，跳转首页
           // localStorage.setItem('isLogin', 'ok')
+          // 拿到状态管理器 this.$store，提交mutation，mutation是在store.js中定义的
           this.$store.commit('changeLoginState', 'ok')
           this.$router.push('/')
         }
@@ -154,3 +116,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import '@/lib/reset.scss';
+.header {
+  @include font-size(0.16rem);
+  @include line-height(.34rem);
+  @include font-weight(700);
+  @include background-color(#f66);
+}
+</style>

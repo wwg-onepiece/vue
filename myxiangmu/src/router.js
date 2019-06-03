@@ -26,6 +26,13 @@ export default new Router({
       }
     },
     {
+      path: '/rlogin',
+      name: 'rlogin',
+      components: {
+        default: () => import('./views/Rlogin')
+      }
+    },
+    {
       path: '/detail/:id',
       name: 'detail',
       components: {
@@ -42,6 +49,9 @@ export default new Router({
         // footer: Footer
         default: () => import('./views/Home'),
         footer: () => import('@/components/common/Footer')
+      },
+      meta: {
+        keepAlive: true
       }
     },
     {
@@ -62,10 +72,10 @@ export default new Router({
         footer: () => import('@/components/common/Footer')
       },
       children: [
-        {
-          path: '/',
-          redirect: 'nologin'
-        },
+        // {
+        //   path: '/',
+        //   redirect: 'nologin'
+        // },
         {
           path: 'nologin',
           // component: UserNoLogin
@@ -77,6 +87,19 @@ export default new Router({
           component: () => import('@/components/user/Login')
         }
       ]
+      // beforeEnter (to, from, next) {
+      //   // console.log(to)
+      //   // console.log(from)
+      //   if (to.path !== '/user/login' && to.path !== '/user/nologin') {
+      //     if (localStorage.getItem('isLogin') === 'ok') {
+      //       next('/user/login')
+      //     } else {
+      //       next('/user/nologin')
+      //     }
+      //   } else {
+      //     next()
+      //   }
+      // }
     },
     {
       path: '/cart',

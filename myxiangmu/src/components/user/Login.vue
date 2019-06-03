@@ -1,5 +1,10 @@
 <template>
   <div>
-    欢迎某某
+    欢迎
   </div>
 </template>
+
+<script>
+export default {
+}
+</script>

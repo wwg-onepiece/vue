@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-button type="info" size="large" url="/Register" class="box9">登录</van-button>
+    <van-button type="primary" size="large" url="/Rlogin" class="box9">登录</van-button>
     <van-button type="info" size="large" url="/Register">注册</van-button>
   </div>
 </template>

@@ -9,11 +9,12 @@
         shape="round"
         @search="onSearch"
         cursor="pointer"
+        class="box12"
       >
         <div slot="action" @click="onSearch">搜索</div>
       </van-search>
     </header>
-    <div class="content">
+    <div class="content" id="content">
       <div class="banner">
         <mt-swipe :auto="4000">
           <mt-swipe-item v-for="(item,index) in bannerlist" :key="index">
@@ -48,6 +49,21 @@ export default { // 暴露模块
     // Banner,
     Prolist,
     BackTop
+  },
+  beforeRouteLeave (to, from, next) {
+    // 离开此路由时，获取到当前滚动条的距离  --- 保存（本地存储，状态管理器
+    let position = document.getElementById('content').scrollTop
+    localStorage.setItem('position', position)
+    document.getElementById('content').removeEventListener('scroll', this.scrollToTop)
+    next()
+  },
+  watch: {
+    $route (newVal) {
+      if (newVal.name === 'home') {
+        console.log(1111)
+        document.getElementById('content').scrollTop = localStorage.getItem('position')
+      }
+    }
   },
   methods: {
     onSearch () {
@@ -105,7 +121,10 @@ export default { // 暴露模块
 .header {
   text-align: center;
   font:700 .18rem/.44rem "";
-  letter-spacing: .1rem;
+  letter-spacing: .01rem;
+  .box12 {
+    height: 100%;
+  }
 }
 .banner {
   height: 1.9rem;
